@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/content"
+    tools:context=".ShowItemTextView">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:textSize="24sp"
+        android:layout_margin="10dp"
+        android:maxLines="9"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:isScrollContainer="true"
+        android:textIsSelectable="true"
+        android:id="@+id/tv_showText"
+        android:textColor="@color/colorPrimary"/>
+
+    <ImageButton
+        android:id="@+id/save_txt_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_save_black_24dp"
+        android:textColor="#fff" />
+
+</RelativeLayout>

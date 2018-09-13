@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".splash_screen">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ToDo List"
+        android:layout_marginTop="230dp"
+        android:textColor="#fff"
+        android:layout_marginLeft="50dp"
+        android:textSize="60sp"
+        android:textStyle="italic"/>
+
+</LinearLayout>
