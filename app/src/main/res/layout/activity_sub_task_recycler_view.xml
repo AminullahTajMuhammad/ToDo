@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="5"
+    android:orientation="horizontal"
+    android:padding="30dp"
     tools:context=".SubTaskRecyclerView">
 
-    <include layout="@layout/layout_toolbar"/>
+    <CheckBox
+        android:id="@+id/checkboxSubTask"
+        android:layout_marginTop="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:shadowColor="@color/colorPrimary"
+        />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tvText_subtask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="4"
+        android:ellipsize="end"
+        android:ems="3"
+        android:lines="1"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/dlt_button_subtask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="0dp"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:src="@drawable/ic_clear_black_24dp" />
+</LinearLayout>
