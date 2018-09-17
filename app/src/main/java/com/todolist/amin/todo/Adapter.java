@@ -14,17 +14,14 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<String> list;
+    private ArrayList<Task> list;
     private Activity activity;
     private int dltposition;
-    private final int Task = 1, SubTask = 2;
+    private final int VIEWTYPE_TASK = 1, VIEWTYPE_SUBTASK = 2;
     OnTapListener listener;
 
-    public Adapter() {
 
-    }
-
-    public Adapter(ArrayList<String> list, Activity activity, OnTapListener listener) {
+    public Adapter(ArrayList<Task> list, Activity activity, OnTapListener listener) {
         this.list = list;
         this.activity = activity;
         this.listener = listener;
@@ -33,16 +30,16 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         RecyclerView.ViewHolder viewHolder = null;
-        switch (i) {
-            case Task:
+        switch (viewType) {
+            case VIEWTYPE_TASK:
                 View v1 = inflater.inflate(R.layout.list_item_view, viewGroup, false);
                 viewHolder = new ViewHolder1(v1, activity);
                 break;
 
-            case SubTask:
+            case VIEWTYPE_SUBTASK:
                 View v2 = inflater.inflate(R.layout.activity_sub_task_recycler_view, viewGroup, false);
                 viewHolder = new ViewHolder2(v2, activity);
                 break;
@@ -54,11 +51,11 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         switch (viewHolder.getItemViewType()) {
-            case Task:
+            case VIEWTYPE_TASK:
                 ViewHolder1 viewHolder1 = (ViewHolder1) viewHolder;
                 setTask(viewHolder1, i);
                 break;
-            case SubTask:
+            case VIEWTYPE_SUBTASK:
                 ViewHolder2 viewHolder2 = (ViewHolder2) viewHolder;
                 setSubTask(viewHolder2, i);
                 break;
@@ -70,19 +67,19 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return list.size();
     }
 
-    void addItem(String text) {
-        list.add(text);
+    void addItem(Task task) {
+        list.add(task);
     }
 
-    void updateItem(String newText, int position) {
+    void updateItem(Task newText, int position) {
         list.set(position, newText);
     }
 
-    String getItem(int position) {
+    Task getItem(int position) {
         return list.get(position);
     }
 
-    ArrayList<String> getItems() {
+    ArrayList<Task> getItems() {
         return list;
     }
 
@@ -126,7 +123,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageButton dlt_subTask;
         public ViewHolder2(@NonNull View itemView, Context context) {
             super(itemView);
-            tvsubTask = itemView.findViewById(R.id.tvText_subtask);
+            tvsubTask = itemView.findViewById(R.id.edt_subtask);
             dlt_subTask = itemView.findViewById(R.id.dlt_button_subtask);
             dlt_subTask.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,35 +142,22 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    String getTask;
     private void setTask(ViewHolder1 vh1, int position) {
-        String Task = list.get(position);
-        getTask = Task;
-        vh1.textView.setText(Task);
+        Task task = list.get(position);
+        vh1.textView.setText(task.getDesc());
     }
     private void setSubTask(ViewHolder2 vh2, int position ) {
-        String SubTask = list.get(position);
-        vh2.tvsubTask.setText(SubTask);
-    }
-
-    private class getArrayList {
-        private String task;
-
-        public getArrayList(String task) {
-            this.task = task;
-        }
-
-    }
-
-
-    private ArrayList<Object> getItemsForList() {
-        ArrayList<Object> items = new ArrayList<>();
-        items.add(new getArrayList(getTask));
-        return items;
+        Task SubTask = list.get(position);
+        vh2.tvsubTask.setText(SubTask.getDesc());
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        if(list.get(position).getIsSubtask()) {
+            return VIEWTYPE_SUBTASK;
+        }
+        else {
+            return VIEWTYPE_TASK;
+        }
     }
 }

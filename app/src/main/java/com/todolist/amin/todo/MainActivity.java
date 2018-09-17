@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity{
     Adapter adapter;
     String editData;
 
-    ArrayList<String> restoredItems = new ArrayList<>();
+    ArrayList<Task> restoredItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +37,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerview);
         floatingActionButton = findViewById(R.id.fabtn);
-        ImageButton imgbutton = (ImageButton) findViewById(R.id.dlt_button);
-
-//        imgbutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int position = adapter.position;
-//                adapter.removeItem(position);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +47,8 @@ public class MainActivity extends AppCompatActivity{
         });
 
         if(savedInstanceState != null){
-            restoredItems = savedInstanceState.getStringArrayList("listData");
+            //rotation bug fix later
+//            restoredItems = savedInstanceState.getStringArrayList("listData");
         }
         BackButtonInvisiable();
         setRecyclerViewList();
@@ -75,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(MainActivity.this,ShowItemTextView.class);
-                intent.putExtra("Show_TextView", adapter.getItem(position));
+                intent.putExtra("Show_TextView", adapter.getItem(position).getDesc());
                 startActivityForResult(intent, 142);
                 clickedPosition = position;
             }
@@ -89,14 +80,14 @@ public class MainActivity extends AppCompatActivity{
         if(requestCode == 142) {
             if(resultCode == RESULT_OK) {
                 catchEdt = data.getStringExtra("Edited_Data");
-                adapter.updateItem(catchEdt,clickedPosition);
+                adapter.updateItem(new Task(catchEdt, false),clickedPosition);
                 adapter.notifyItemChanged(clickedPosition);
             }
         }
         else if(requestCode == 123) {
             if(resultCode == RESULT_OK) {
                 catchEdt = data.getStringExtra("DATA");
-                adapter.addItem(catchEdt);
+                adapter.addItem(new Task(catchEdt, false));
                 adapter.notifyItemInserted(adapter.getItemCount());
             }
         }
@@ -105,14 +96,14 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.v(TAG, "onSaveInstanceState()");
-        outState.putStringArrayList("listData", adapter.getItems());
+//        outState.putStringArrayList("listData", adapter.getItems());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        restoredItems = savedInstanceState.getStringArrayList("listData");
+//        restoredItems = savedInstanceState.getStringArrayList("listData");
     }
 
     void BackButtonInvisiable() {

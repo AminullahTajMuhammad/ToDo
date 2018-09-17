@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +30,8 @@ public class write_text extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_text);
-        btnAdd = findViewById(R.id.btnAdd);
         editText = findViewById(R.id.edt);
+        btnAdd = findViewById(R.id.btnAdd);
         editText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +54,7 @@ public class write_text extends AppCompatActivity {
 
     void setToolBar() {
         ImageButton btnBack = findViewById(R.id.btnBack);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
