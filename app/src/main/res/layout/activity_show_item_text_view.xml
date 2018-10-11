@@ -44,13 +44,22 @@
         android:id="@+id/btnshow"
         android:src="@drawable/ic_subdirectory_arrow_right_black_24dp"
         android:background="@android:color/transparent"/>
-    <EditText
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edt_subtask"
-        android:hint="Enter Sub Task"
+        android:id="@+id/textinputlayout"
         android:layout_below="@+id/tv_showText"
-        android:layout_toRightOf="@id/btnshow" />
+        android:layout_toRightOf="@id/btnshow">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_subtask"
+            android:textColorHint="@color/colorAccent"
+            android:textAppearance="@style/FloatingHintStyle"
+            android:hint="Enter Sub Task" />
+    </android.support.design.widget.TextInputLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,8 +68,9 @@
         android:id="@+id/btn_subtask"
         android:padding="10dp"
         android:background="@android:color/transparent"
-        android:layout_below="@id/edt_subtask"
+        android:layout_below="@id/textinputlayout"
         android:layout_toRightOf="@+id/btnshow"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
