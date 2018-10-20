@@ -11,26 +11,29 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     String catchEdt;
     Adapter adapter;
     String editData;
-    AutoCompleteTextView searchTask;
 
     ArrayList<Task> restoredItems = new ArrayList<>();
 
@@ -55,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         }
         BackButtonInvisiable();
         setRecyclerViewList();
-        setSearchTasks();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
     }
 
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // this is for edit task screen
         if(requestCode == 142) {
             if(resultCode == RESULT_OK) {
                 catchEdt = data.getStringExtra("Edited_Data");
@@ -88,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyItemChanged(clickedPosition);
             }
         }
+
+        //this is for floating action button screen or main screen
         else if(requestCode == 123) {
             if(resultCode == RESULT_OK) {
                 catchEdt = data.getStringExtra("DATA");
@@ -113,18 +121,39 @@ public class MainActivity extends AppCompatActivity {
     void BackButtonInvisiable() {
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setVisibility(View.GONE);
+
         //TextView txtAppName = findViewById(R.id.tv_Appname);
         //txtAppName.setVisibility(View.GONE);
     }
 
-    void setSearchTasks() {
-        searchTask = findViewById(R.id.edt_search);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("John"); list.add("James"); list.add("Evan"); list.add("Jammy");
-        list.add("Taylor"); list.add("Paule"); list.add("Lisan"); list.add("Jesse");
-        list.add("Anderson"); list.add("Juleee"); list.add("Jackson"); list.add("Hamed");
-        ArrayAdapter<String> names = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, list);
-        searchTask.setThreshold(1);
-        searchTask.setAdapter(names);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_search_icon,menu);
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        ArrayList<Task> newList = new ArrayList<>();
+        Task userInput = new Task(newText.toLowerCase(),false); //= newText.toLowerCase();
+
+        for(Task items : restoredItems) {
+            if(items.toString().toLowerCase().contains(userInput.toString())) {
+                newList.add(userInput);
+            }
+        }
+
+        adapter.searchitems(newList);
+        return true;
     }
 }
