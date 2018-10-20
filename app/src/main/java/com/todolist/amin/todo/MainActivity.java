@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_search_icon,menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -143,13 +144,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-
+        newText = newText.toLowerCase();
         ArrayList<Task> newList = new ArrayList<>();
-        Task userInput = new Task(newText.toLowerCase(),false); //= newText.toLowerCase();
 
         for(Task items : restoredItems) {
-            if(items.toString().toLowerCase().contains(userInput.toString())) {
-                newList.add(userInput);
+            String list = items.toString();
+            if(list.toLowerCase().contains(newText)) {
+                newList.add(items);
             }
         }
 
