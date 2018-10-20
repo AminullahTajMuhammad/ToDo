@@ -31,7 +31,7 @@
             android:textColor="#fff"
             android:layout_marginRight="40dp"
             android:layout_marginTop="14dp"
-            android:text="My Tasks"
+            android:text="Tasks"
             />
 
     </LinearLayout>

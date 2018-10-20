@@ -2,6 +2,7 @@ package com.todolist.amin.todo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Task> list;
+    private ArrayList<Task> list = new ArrayList<Task>();
     private Activity activity;
     private int dltposition;
     private final int VIEWTYPE_TASK = 1, VIEWTYPE_SUBTASK = 2;
@@ -141,10 +141,10 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             listener.onItemClick(position);
         }
     }
-
     private void setTask(ViewHolder1 vh1, int position) {
         Task task = list.get(position);
         vh1.textView.setText(task.getDesc());
+
     }
     private void setSubTask(ViewHolder2 vh2, int position ) {
         Task SubTask = list.get(position);
@@ -159,5 +159,11 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         else {
             return VIEWTYPE_TASK;
         }
+    }
+
+    void searchitems(ArrayList<Task> searchedList) {
+        list = new ArrayList<Task>();
+        list.addAll(searchedList);
+        notifyDataSetChanged();
     }
 }

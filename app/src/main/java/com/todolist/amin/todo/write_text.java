@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class write_text extends AppCompatActivity {
     Button btnAdd;
@@ -38,6 +39,8 @@ public class write_text extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 catchMassage();
+                Toast.makeText(write_text.this,
+                        "You Task is Added in list",Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -17,4 +17,9 @@ public class Task {
         public boolean getIsSubtask(){
             return isSubTask;
         }
-    }
+
+        @Override
+        public String toString() {
+            return desc;
+        }
+}

@@ -8,31 +8,13 @@
 
     <include layout="@layout/layout_toolbar"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/maintextinput"
-        android:layout_below="@+id/toolbar"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        android:layout_margin="10dp">
-        <AutoCompleteTextView
-            android:id="@+id/edt_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search"
-            android:textColorHint="@color/colorAccent"
-            android:textAppearance="@style/FloatingHintStyle"/>
-
-    </android.support.design.widget.TextInputLayout>
-
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview"
-        android:layout_below="@+id/maintextinput"
+        android:layout_below="@+id/toolbar"
         android:layout_margin="10dp"
         />
 
