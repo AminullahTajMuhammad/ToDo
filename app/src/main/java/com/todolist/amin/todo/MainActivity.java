@@ -1,6 +1,7 @@
 package com.todolist.amin.todo;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PersistableBundle;
@@ -28,7 +29,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
@@ -131,30 +132,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_search_icon,menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setOnQueryTextListener(this);
-        return true;
-    }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search)
+                .getActionView();
 
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        newText = newText.toLowerCase();
-        ArrayList<Task> newList = new ArrayList<>();
-
-        for(Task items : restoredItems) {
-            String list = items.toString();
-            if(list.toLowerCase().contains(newText)) {
-                newList.add(items);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
             }
-        }
 
-        adapter.searchitems(newList);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 }

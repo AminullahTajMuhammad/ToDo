@@ -8,13 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private ArrayList<Task> list = new ArrayList<Task>();
+    private ArrayList<Task> contactListFiltered = new ArrayList<>();
     private Activity activity;
     private int dltposition;
     private final int VIEWTYPE_TASK = 1, VIEWTYPE_SUBTASK = 2;
@@ -23,6 +26,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public Adapter(ArrayList<Task> list, Activity activity, OnTapListener listener) {
         this.list = list;
+        this.contactListFiltered = list;
         this.activity = activity;
         this.listener = listener;
     }
@@ -64,7 +68,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return contactListFiltered.size();
     }
 
     void addItem(Task task) {
@@ -89,6 +93,43 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
+//---------------- For Search Item List --------------------//
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    contactListFiltered = list;
+                } else {
+                    ArrayList<Task> filteredList = new ArrayList<>();
+                    for (Task row : list) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.toString().toLowerCase().contains(charString.toLowerCase())
+                                || row.toString().contains(constraint)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    contactListFiltered = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = contactListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                contactListFiltered = (ArrayList<Task>) results.values;
+                // refresh the list with filtered data
+                notifyDataSetChanged();
+            }
+        };
+    }
+//-----------------------------------------------------//
 
     public class ViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener {
         public int position;
@@ -142,7 +183,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
     private void setTask(ViewHolder1 vh1, int position) {
-        Task task = list.get(position);
+        Task task = contactListFiltered.get(position);
         vh1.textView.setText(task.getDesc());
 
     }
@@ -160,10 +201,10 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEWTYPE_TASK;
         }
     }
-
-    void searchitems(ArrayList<Task> searchedList) {
-        list = new ArrayList<Task>();
-        list.addAll(searchedList);
-        notifyDataSetChanged();
-    }
+//
+//    void searchitems(ArrayList<Task> searchedList) {
+//        list = new ArrayList<Task>();
+//        list.addAll(searchedList);
+//        notifyDataSetChanged();
+//    }
 }
